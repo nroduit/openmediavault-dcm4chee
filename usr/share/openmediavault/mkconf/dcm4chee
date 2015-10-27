@@ -1,0 +1,96 @@
+#!/bin/sh
+#
+# Copyright (C) 2015 OpenMediaVault Plugin Developers
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+. /etc/default/openmediavault
+. /usr/share/openmediavault/scripts/helper-functions
+
+SERVICE="dcm4chee"
+SERVICE_XPATH="//services/${SERVICE}"
+
+LINK_DCM4CHEE="http://gihtub.com/dcm4chee-mysql_2.18.2-rc1_all.deb"
+LINK_WEASIS="http://gihtub.com/dcm4chee-weasis_2.0.5_all.deb"
+PKG_DCM4CHEE="/var/tmp/dcm4chee-mysql.deb"
+PKG_WEASIS="/var/tmp/dcm4chee-weasis.deb"
+INSTALL_DIR="/var/lib/${SERVICE}"
+
+install()
+{
+    if [ -x /etc/init.d/dcm4chee ]; then
+        update-rc.d ${SERVICE} stop
+    fi
+
+    echo "Downloading dcm4chee packages..."
+
+    mkdir -p "var/tmp"
+
+    #if [ -f "${PKG_DCM4CHEE}" ]; then
+    #    rm -f ${PKG_DCM4CHEE}
+    #fi
+    #wget ${LINK_DCM4CHEE} -O ${PKG_DCM4CHEE}
+
+    #if [ -f "${PKG_WEASIS}" ]; then
+    #    rm -f ${PKG_WEASIS}
+    #fi
+    #wget ${LINK_WEASIS} -O ${PKG_WEASIS}
+
+    echo "Installing dcm4chee..."
+    # Install dcm4chee-mysql and its dependencies
+    #dpkg -i ${PKG_DCM4CHEE} || apt-get -f install -y
+    #dpkg -i ${PKG_WEASIS} || apt-get -f install -y
+
+}
+
+remove()
+{
+    # Remove dcm4chee-mysql and its dependencies
+    apt-get -f remove dcm4chee-mysql -y || echo "Cannot remove dcm4chee-mysql package correctly!"
+}
+
+config()
+{
+    echo "Configuration of dcm4chee..."
+}
+
+
+case $2 in
+    install)
+        install
+    ;;
+
+    remove)
+        remove
+    ;;
+
+    update)
+        install
+    ;;
+
+    config)
+        config
+    ;;
+
+    *)
+    ;;
+esac
+
+#if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
+#    invoke-rc.d ${SERVICE} start
+#fi
+
+exit 0

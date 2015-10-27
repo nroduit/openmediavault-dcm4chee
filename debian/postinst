@@ -1,0 +1,65 @@
+#!/bin/sh
+set -e
+
+. /etc/default/openmediavault
+. /usr/share/openmediavault/scripts/helper-functions
+
+SERVICE_XPATH_NAME="dcm4chee"
+SERVICE_XPATH="//services/${SERVICE_XPATH_NAME}"
+
+case "$1" in
+
+    configure)
+        
+        #if [ -z "$2" ]; then
+        #    echo "Updating init script links and actions."
+        #    invoke-rc.d --force ${SERVICE_XPATH_NAME} stop
+        #    update-rc.d ${SERVICE_XPATH_NAME} disable >/dev/null
+        #fi
+
+
+        # Update the configuration.
+        if ! omv_config_exists "${SERVICE_XPATH}"; then
+            echo "Updating configuration"
+
+            omv_config_add_element "/config/services" "${SERVICE_XPATH_NAME}"
+            omv_config_add_element "${SERVICE_XPATH}" "enable" "0"
+            omv_config_add_element "${SERVICE_XPATH}" "port" "8080"
+        fi
+
+        #if ! omv_config_exists "${SERVICE_XPATH}/modules"; then
+        #    omv_config_add_element "${SERVICE_XPATH}" "modules"
+        #fi
+
+        #if dpkg --compare-versions "$2" lt-nl "2.19"; then
+        #fi
+
+        echo "Launch triggers..."
+        omv_install_fixperms
+
+        # Activate package triggers. These triggers are only set during the
+        # package installation.
+        dpkg-trigger update-fixperms
+        dpkg-trigger update-locale
+        
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
+
+    if [ -x /etc/init.d/dcm4chee ]; then
+        invoke-rc.d ${SERVICE_XPATH_NAME} stop
+    fi
+fi
+
+exit 0
