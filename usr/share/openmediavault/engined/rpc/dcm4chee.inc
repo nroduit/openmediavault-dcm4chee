@@ -80,7 +80,7 @@ class OMVRpcServiceDcm4chee extends OMVRpcServiceAbstract
         // Modify result data
         $object['enable']  = boolval($object['enable']);
         $object['port']    = intval($object['port']);
-        #$object['showtab'] = boolval($object['showtab']);
+        // $object['showtab'] = boolval($object['showtab']);
 
         return $object;
     }
@@ -100,16 +100,18 @@ class OMVRpcServiceDcm4chee extends OMVRpcServiceAbstract
             "type": "object",
             "properties": {
                 "enable": { "type" : "boolean" },
-                "port": { "type" : "integer", "minimum" : 1 }
+
             }
         }');
 
-                #        "showtab": { "type" : "boolean" },
+        // insert in properties => "port": { "type" : "integer", "minimum" : 1 }
+
+        //       "showtab": { "type" : "boolean" },
 
         // Prepare configuration data
         $object = array(
             'enable'    => array_boolval($params, 'enable'),
-            'port'      => intval($params['port'])
+         //   'port'      => intval($params['port'])
         );
 
         // Set configuration object
