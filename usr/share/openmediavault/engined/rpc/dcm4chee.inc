@@ -79,7 +79,8 @@ class OMVRpcServiceDcm4chee extends OMVRpcServiceAbstract
 
         // Modify result data
         $object['enable']  = boolval($object['enable']);
-        $object['port']    = intval($object['port']);
+        $object['port']    = 8080;
+        //$object['port']    = intval($object['port']);
         // $object['showtab'] = boolval($object['showtab']);
 
         return $object;
@@ -99,8 +100,7 @@ class OMVRpcServiceDcm4chee extends OMVRpcServiceAbstract
         $this->validateMethodParams($params, '{
             "type": "object",
             "properties": {
-                "enable": { "type" : "boolean" },
-
+                "enable": { "type" : "boolean" }
             }
         }');
 
