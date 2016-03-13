@@ -4,7 +4,7 @@ XB-Plugin-Section: multimedia
 Priority: optional
 Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>
 Build-Depends: debhelper (>= 9.0.0)
-Standards-Version: 0.9.5
+Standards-Version: 0.9.7
 
 Package: openmediavault-dcm4chee
 Architecture: all

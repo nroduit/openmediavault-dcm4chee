@@ -1,5 +1,3 @@
-openmediavault-dcm4chee (0.9.5) stable; urgency=low 
-
-    * First official release
+openmediavault-dcm4chee (0.9.7) stable; urgency=low 
 
  -- Nicolas Roduit <nicolas.roduit@gmail.com>  Sun, 16 Aug 2015 09:57:36 +0200
