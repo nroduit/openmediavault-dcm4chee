@@ -23,37 +23,37 @@ set -e
 SERVICE="dcm4chee"
 SERVICE_XPATH="//services/${SERVICE}"
 
-LINK_DCM4CHEE="http://gihtub.com/dcm4chee-mysql_2.18.2-rc1_all.deb"
-LINK_WEASIS="http://gihtub.com/dcm4chee-weasis_2.0.5_all.deb"
-PKG_DCM4CHEE="/var/tmp/dcm4chee-mysql.deb"
-PKG_WEASIS="/var/tmp/dcm4chee-weasis.deb"
+NAME_DCM4CHEE="dcm4chee-mysql_2.18.2-rc1_all.deb"
+NAME_WEASIS="dcm4chee-weasis_2.0.5_all.deb"
+LINK_DCM4CHEE="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v0.9.5/${NAME_DCM4CHEE}"
+LINK_WEASIS="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v0.9.5/${NAME_WEASIS}"
+PKG_DCM4CHEE="/var/tmp/${NAME_DCM4CHEE}"
+PKG_WEASIS="/var/tmp/${NAME_WEASIS}"
 INSTALL_DIR="/var/lib/${SERVICE}"
 
 install()
-{
-    if [ -x /etc/init.d/dcm4chee ]; then
-        update-rc.d ${SERVICE} stop
-    fi
-
-    echo "Downloading dcm4chee packages..."
-
+{ 
     mkdir -p "var/tmp"
 
-    #if [ -f "${PKG_DCM4CHEE}" ]; then
-    #    rm -f ${PKG_DCM4CHEE}
-    #fi
-    #wget ${LINK_DCM4CHEE} -O ${PKG_DCM4CHEE}
+    if [ ! -f "${PKG_DCM4CHEE}" ]; then
+        echo "Downloading dcm4chee package..."
+        wget ${LINK_DCM4CHEE} -O ${PKG_DCM4CHEE} || rm -f ${PKG_DCM4CHEE}
+    fi
+    
 
-    #if [ -f "${PKG_WEASIS}" ]; then
-    #    rm -f ${PKG_WEASIS}
-    #fi
-    #wget ${LINK_WEASIS} -O ${PKG_WEASIS}
+    if [ ! -f "${PKG_WEASIS}" ]; then
+        echo "Downloading weasis package..."
+        wget ${LINK_WEASIS} -O ${PKG_WEASIS} || rm -f ${PKG_WEASIS}
+    fi
 
     echo "Installing dcm4chee..."
     # Install dcm4chee-mysql and its dependencies
-    #dpkg -i ${PKG_DCM4CHEE} || apt-get -f install -y
-    #dpkg -i ${PKG_WEASIS} || apt-get -f install -y
-
+    echo "dpkg -i ${PKG_DCM4CHEE}"
+    dpkg -i ${PKG_DCM4CHEE} || apt-get -f install -y
+    
+    echo "Installing weasis..."
+    echo "dpkg -i ${PKG_WEASIS}"
+    dpkg -i ${PKG_WEASIS} || apt-get -f install -y
 }
 
 remove()

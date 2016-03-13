@@ -49,6 +49,21 @@ Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
             }
         }]
     }],
+    
+    getButtonItems: function () {
+        var me = this;
+        var items = me.callParent(arguments);
+        items.push({
+            id: me.getId() + "-update",
+            xtype: "button",
+            text: _("Download and install/upgrade dcm4chee"),
+            icon: "images/add.png",
+            iconCls: Ext.baseCSSPrefix + "btn-icon-16x16",
+            scope: me,
+            handler: Ext.Function.bind(me.onUpdateButton, me, [me])
+        });
+        return items;
+    },
 
     getFormItems: function () {
         var me = this;
@@ -117,6 +132,31 @@ Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
     onOpenPacsButton: function () {
         var me = this;
         window.open("http://" + window.location.hostname + ":" + me.getForm().findField("port").getValue() + "/dcm4chee-web3", "_blank");
+    },
+    
+    onUpdateButton: function () {
+        var me = this;
+        var wnd = Ext.create("OMV.window.Execute", {
+            title: _("Installing dcm4chee..."),
+            rpcService: "dcm4chee",
+            rpcMethod: "doUpdate",
+            hideStartButton: true,
+            hideStopButton: true,
+            listeners: {
+                scope: me,
+                finish: function (wnd, response) {
+                    wnd.appendValue(_("Done..."));
+                    wnd.setButtonDisabled("close", false);
+                },
+                exception: function (wnd, error) {
+                    OMV.MessageBox.error(null, error);
+                    wnd.setButtonDisabled("close", false);
+                }
+            }
+        });
+        wnd.setButtonDisabled("close", true);
+        wnd.show();
+        wnd.start();
     }
 
 });
