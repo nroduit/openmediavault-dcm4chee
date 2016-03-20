@@ -1,0 +1,9 @@
+dcm4chee-weasis (2.0.6) stable; urgency=low 
+
+    * [WEA-346] - Artifacts with the pure Java JPEG2000 Decoder
+    * [WEA-348] - Cannot display some US images
+    * [WEA-349] - On Windows 10 and last Java Runtime compressed images cannot be displayed
+
+    * [WEA-350] - Update to dcm4che 3.3.7 and felix framework 5.4.0
+    
+ -- Nicolas Roduit <nicolas.roduit@gmail.com>  Sat, 27 Feb 2016 19:44:06 +0100

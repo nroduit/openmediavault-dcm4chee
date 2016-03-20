@@ -36,8 +36,17 @@ ehthumbs.db
 Desktop.ini
 
 # OpenMediaVault / Debian
-debian/openmediavault-*
-debian/files
-debian/*.debhelper.log
-debian/*.debhelper
-debian/*substvars
+**/debian/openmediavault-*
+**/debian/dcm4chee-*
+**/debian/files
+**/debian/*.debhelper.log
+**/debian/*.debhelper
+**/debian/*substvars
+
+# Binaries
+dcm4chee-mysql/var/lib/dcm4chee/*
+weasis/var/lib/dcm4chee/server/default/deploy/*
+/*.dsc
+/*.tar.gz
+/*.deb
+/*.changes

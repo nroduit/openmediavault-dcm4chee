@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- automatically produced by XMLAttributePersistenceManager --><attribute-list date="20150712083311" id="dcm4chee.web:service=WebConfig">
+<attribute name="WebConfigPath" type="java.lang.String">conf/dcm4chee-web3/</attribute>
+<attribute name="dicomSecurityServletUrl" type="java.lang.String">http://localhost:8080/dcm4chee-web3-dicom/dicom-security-servlet</attribute>
+<attribute name="WadoBaseURL" type="java.lang.String">NONE</attribute>
+<attribute name="RIDBaseURL" type="java.lang.String">NONE</attribute>
+<attribute name="arrURL" type="java.lang.String">http://localhost:8080/dcm4chee-arr/xml</attribute>
+<attribute name="WebviewerNames" type="java.lang.String">weasis&#13;
+</attribute>
+<attribute name="WebviewerBaseUrls" type="java.lang.String">NONE</attribute>
+<attribute name="PatientIDPattern" type="java.lang.String">PACS-{#############}</attribute>
+<attribute name="IssuerOfPatientID" type="java.lang.String">DCM4CHEE</attribute>
+<attribute name="ImageSOPClasses" type="java.lang.String">ComputedRadiographyImageStorage&#13;
+DigitalXRayImageStorageForPresentation&#13;
+DigitalXRayImageStorageForProcessing&#13;
+DigitalMammographyXRayImageStorageForPresentation&#13;
+DigitalMammographyXRayImageStorageForProcessing&#13;
+DigitalIntraOralXRayImageStorageForPresentation&#13;
+DigitalIntraOralXRayImageStorageForProcessing&#13;
+CTImageStorage&#13;
+EnhancedCTImageStorage&#13;
+UltrasoundMultiFrameImageStorage&#13;
+MRImageStorage&#13;
+EnhancedMRImageStorage&#13;
+UltrasoundImageStorage&#13;
+SecondaryCaptureImageStorage&#13;
+MultiFrameSingleBitSecondaryCaptureImageStorage&#13;
+MultiFrameGrayscaleByteSecondaryCaptureImageStorage&#13;
+MultiFrameGrayscaleWordSecondaryCaptureImageStorage&#13;
+MultiFrameTrueColorSecondaryCaptureImageStorage&#13;
+XRayAngiographicImageStorage&#13;
+EnhancedXAImageStorage&#13;
+XRayRadiofluoroscopicImageStorage&#13;
+EnhancedXRFImageStorage&#13;
+NuclearMedicineImageStorage&#13;
+VLEndoscopicImageStorage&#13;
+VLMicroscopicImageStorage&#13;
+VLSlideCoordinatesMicroscopicImageStorage&#13;
+VLPhotographicImageStorage&#13;
+OphthalmicPhotography8BitImageStorage&#13;
+OphthalmicPhotography16BitImageStorage&#13;
+PositronEmissionTomographyImageStorage&#13;
+RTImageStorage&#13;
+HardcopyGrayscaleImageStorageSOPClassRetired&#13;
+HardcopyColorImageStorageSOPClassRetired&#13;
+NuclearMedicineImageStorageRetired&#13;
+UltrasoundMultiFrameImageStorageRetired&#13;
+UltrasoundImageStorageRetired&#13;
+XRayAngiographicBiPlaneImageStorageRetired&#13;
+VLImageStorageTrialRetired&#13;
+VLMultiFrameImageStorageTrialRetired&#13;
+</attribute>
+<attribute name="VideoSOPClasses" type="java.lang.String">VideoEndoscopicImageStorage&#13;
+VideoMicroscopicImageStorage&#13;
+VideoPhotographicImageStorage&#13;
+</attribute>
+<attribute name="WaveformSOPClasses" type="java.lang.String">TwelveLeadECGWaveformStorage&#13;
+GeneralECGWaveformStorage&#13;
+AmbulatoryECGWaveformStorage&#13;
+HemodynamicWaveformStorage&#13;
+CardiacElectrophysiologyWaveformStorage&#13;
+BasicVoiceAudioWaveformStorage&#13;
+</attribute>
+<attribute name="SRSOPClasses" type="java.lang.String">BasicTextSRStorage&#13;
+EnhancedSRStorage&#13;
+ComprehensiveSRStorage&#13;
+ProcedureLogStorage&#13;
+MammographyCADSRStorage&#13;
+KeyObjectSelectionDocumentStorage&#13;
+ChestCADSRStorage&#13;
+XRayRadiationDoseSRStorage&#13;
+</attribute>
+<attribute name="PSSOPClasses" type="java.lang.String">GrayscaleSoftcopyPresentationStateStorageSOPClass&#13;
+ColorSoftcopyPresentationStateStorageSOPClass&#13;
+PseudoColorSoftcopyPresentationStateStorageSOPClass&#13;
+BlendingSoftcopyPresentationStateStorageSOPClass&#13;
+XAXRFGrayscaleSoftcopyPresentationStateStorage&#13;
+</attribute>
+<attribute name="EncapsulatedCUIDS" type="java.lang.String">EncapsulatedPDFStorage&#13;
+EncapsulatedCDAStorage&#13;
+</attribute>
+<attribute name="RIDMimeTypes" type="java.lang.String">SR:application/pdf|&#13;
+ECG:application/pdf|image/svg+xml|&#13;
+DOC:application/pdf|&#13;
+</attribute>
+<attribute name="WindowSizeConfig" type="java.lang.String">default:800x600&#13;
+arr:1024x768&#13;
+export:650x500&#13;
+aeEdit:960x700&#13;
+mwEdit:1024x768&#13;
+mpps2mwl:1124x600&#13;
+linkToOld:480x200&#13;
+move:900x320&#13;
+addUser:400x300&#13;
+changePassword:400x300&#13;
+manageRoles:300x700&#13;
+editRole:570x350&#13;
+webPermissions:300x700&#13;
+aetGroupAssignment:300x700&#13;
+typeAssignment:300x700&#13;
+editGroup:600x350&#13;
+createGroup:400x300&#13;
+editReport:850x500&#13;
+aetAssignment:300x700&#13;
+reportDiagram:1024x768&#13;
+reportDiagramImage:800x600&#13;
+reportTable:1024x768&#13;
+reportDiagramandtable:1024x768&#13;
+</attribute>
+<attribute name="Modalities" type="java.lang.String">CR|CT|DR|DS|DX|ES|KO|MG|MR|NM|OT|PR|RTDOSE|SR|US|XA|</attribute>
+<attribute name="AutoUpdateModalities" type="java.lang.Boolean">false</attribute>
+<attribute name="aetTypes" type="java.lang.String">-|</attribute>
+<attribute name="aeManagementDefault" type="java.lang.String">ANY</attribute>
+<attribute name="StationNames" type="java.lang.String">UNKOWN|</attribute>
+<attribute name="AutoUpdateStationNames" type="java.lang.Boolean">false</attribute>
+<attribute name="AutoUpdateDicomRoles" type="java.lang.Boolean">false</attribute>
+<attribute name="AutoExpandLevelChoices" type="java.lang.String">auto&#13;
+Patient&#13;
+Study&#13;
+Series&#13;
+</attribute>
+<attribute name="AutoWildcard" type="java.lang.Integer">1</attribute>
+<attribute name="Pagesizes" type="java.lang.String">10&#13;
+25&#13;
+50&#13;
+100&#13;
+</attribute>
+<attribute name="DefaultFolderPagesize" type="java.lang.Integer">10</attribute>
+<attribute name="DefaultMWLPagesize" type="java.lang.Integer">10</attribute>
+<attribute name="QueryAfterPagesizeChange" type="java.lang.Boolean">true</attribute>
+<attribute name="useFamilyAndGivenNameQueryFields" type="java.lang.Boolean">false</attribute>
+<attribute name="DefaultHidePPS" type="java.lang.Boolean">false</attribute>
+<attribute name="forcePatientExpandableForPatientQuery" type="java.lang.Boolean">false</attribute>
+<attribute name="PresetStudyDate" type="java.lang.String">NONE</attribute>
+<attribute name="Mpps2mwlPresetPatientname" type="java.lang.String">3</attribute>
+<attribute name="Mpps2mwlPresetModality" type="java.lang.String">mpps</attribute>
+<attribute name="Mpps2mwlPresetStartDate" type="java.lang.String">mpps</attribute>
+<attribute name="Mpps2mwlAutoQuery" type="java.lang.Boolean">false</attribute>
+<attribute name="TCForumIntegrationType" type="java.lang.String">NONE</attribute>
+<attribute name="TCSeriesDisplayFormat" type="java.lang.String">$(StudyDescription) | $(SeriesDescription) ($(ImageCount))</attribute>
+<attribute name="TCRestrictedSourceAETs" type="java.lang.String">NONE</attribute>
+<attribute name="TCEthnicGroups" type="java.lang.String">NONE&#13;
+</attribute>
+<attribute name="TCKeywordCataloguesPath" type="java.lang.String">NONE</attribute>
+<attribute name="TCKeywordCatalogues" type="java.lang.String">Keyword:ACR,ACR,true&#13;
+</attribute>
+<attribute name="TCRestrictedAttributes" type="java.lang.String">Title&#13;
+Abstract&#13;
+Anatomy&#13;
+Diagnosis&#13;
+DifferentialDiagnosis&#13;
+Remarks&#13;
+Discussion&#13;
+Finding&#13;
+OrganSystem&#13;
+Pathology</attribute>
+<attribute name="TCEditOnDoubleClick" type="java.lang.Boolean">false</attribute>
+<attribute name="TCShowImagesInDialog" type="java.lang.Boolean">true</attribute>
+<attribute name="TCMultipleKeywordSearch" type="java.lang.Boolean">false</attribute>
+<attribute name="TCMultipleKeywordORConcat" type="java.lang.Boolean">true</attribute>
+<attribute name="ReadingRoom" type="java.lang.Boolean">false</attribute>
+<attribute name="ShowDoneDialogAfterAction" type="java.lang.Boolean">false</attribute>
+<attribute name="moveScuServiceName" type="javax.management.ObjectName">dcm4chee.web:service=MoveScu</attribute>
+<attribute name="tcStoreScuServiceName" type="javax.management.ObjectName">dcm4chee.web:service=TCStoreScu</attribute>
+<attribute name="aeServiceName" type="javax.management.ObjectName">dcm4chee.archive:service=AE</attribute>
+<attribute name="echoServiceName" type="javax.management.ObjectName">dcm4chee.web:service=EchoService</attribute>
+<attribute name="contentEditServiceName" type="javax.management.ObjectName">dcm4chee.web:service=ContentEditService</attribute>
+<attribute name="storeBridgeServiceName" type="javax.management.ObjectName">dcm4chee.web:service=StoreBridge</attribute>
+<attribute name="mppsEmulatorServiceName" type="javax.management.ObjectName">dcm4chee.archive:service=MPPSEmulator</attribute>
+<attribute name="mwlScuServiceName" type="javax.management.ObjectName">dcm4chee.web:service=Web3MwlSCU</attribute>
+<attribute name="tarRetrieveServiceName" type="javax.management.ObjectName">dcm4chee.archive:service=TarRetriever</attribute>
+<attribute name="mppsForwardServiceName" type="javax.management.ObjectName">dcm4chee.web:service=MPPSForward</attribute>
+<attribute name="UserMgtUserRole" type="java.lang.String">WebUser</attribute>
+<attribute name="UserMgtAdminRole" type="java.lang.String">WebAdmin</attribute>
+<attribute name="manageUsers" type="java.lang.Boolean">true</attribute>
+<attribute name="manageStudyPermissions" type="java.lang.Boolean">false</attribute>
+<attribute name="useStudyPermissions" type="java.lang.Boolean">false</attribute>
+<attribute name="tooOldLimit" type="java.lang.String">NEVER</attribute>
+<attribute name="ignoreEditTimeLimitRolename" type="java.lang.String">IgnoreEditTimeLimit</attribute>
+<attribute name="retentionTime" type="java.lang.String">NEVER</attribute>
+<attribute name="emptyTrashInterval" type="java.lang.String">NEVER</attribute>
+<attribute name="ZipEntryTemplate" type="java.lang.String">{#studyIuid}/{#seriesIuid}/{#sopIuid}</attribute>
+<attribute name="BufferSize" type="java.lang.Integer">8192</attribute>
+<attribute name="trustPatientIdWithoutIssuer" type="java.lang.Boolean">false</attribute>
+<attribute name="modalityFilter" type="java.lang.String">NONE</attribute>
+<attribute name="SearchWarningThreshold" type="java.lang.Integer">1000</attribute>
+</attribute-list>

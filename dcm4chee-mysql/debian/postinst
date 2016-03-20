@@ -1,0 +1,77 @@
+#!/bin/bash -e
+
+
+MYSQLUSER="pacs"
+MYSQLPASSWORD="pacs"
+MYSQLDB="pacsdb"
+DCM4CHEE_DIR="/var/lib/dcm4chee"
+SECURITY_INFO="--defaults-file=/etc/mysql/debian.cnf"
+
+case "$1" in
+
+    configure)
+
+		# Set prermission to dcm4chee user
+		if [ ! -d "${DCM4CHEE_DIR}" ]; then
+        	mkdir -p "${DCM4CHEE_DIR}"
+    	fi
+		chown -R dcm4chee:dcm4chee ${DCM4CHEE_DIR}
+
+		# Start mysql
+		[ -f "/var/run/mysqld/mysqld.pid" ] || /etc/init.d/mysql start
+
+		if [ -d /var/lib/mysql/${MYSQLDB} ]; then
+			echo "previous dcm4chee-mysql version: $2"
+			# Upgrade the database
+			if [[ "${2:0:4}" == "2.17" ]]; then 
+				mysql $SECURITY_INFO ${MYSQLDB} < ${DCM4CHEE_DIR}/sql/update-2.18.mysql
+				#mysql $SECURITY_INFO ${MYSQLDB} < ${DCM4CHEE_DIR}/sql/update-2.19.mysql
+				echo "Update ${MYSQLDB} tables form 2.17 to 2.18"
+			elif [[ "${2:0:4}" == "2.18" ]]; then
+				#mysql $SECURITY_INFO ${MYSQLDB} < ${DCM4CHEE_DIR}/sql/update-2.19.mysql
+				#echo "Update ${MYSQLDB} tables form 2.18 to 2.19"
+				echo "no need to upgrade DB"
+			else
+				echo "PACS DB upgrade: ${MYSQLDB} has not be upgraded. Need to be done manualy!"
+			fi
+		else
+			# Create pacs database
+			echo "Create database: ${MYSQLDB}"
+			mysql $SECURITY_INFO --execute "create database ${MYSQLDB}; grant all on ${MYSQLDB}.* to '${MYSQLUSER}'@'localhost' identified by '${MYSQLPASSWORD}'; flush privileges;"
+			mysql $SECURITY_INFO ${MYSQLDB} < ${DCM4CHEE_DIR}/sql/create.mysql && echo "Create ${MYSQLDB} tables"
+		fi
+
+		if [ -f /etc/init.d/dcm4chee ]; then
+			# Start dcm4che at boot
+			update-rc.d -f dcm4chee defaults
+		fi
+
+		# Change the native imageio library for the 32-bit x86 processor
+		arch=`uname -m`
+		[ "$arch" != "x86_64" ] && cp  ${DCM4CHEE_DIR}/tempinst/libclib_jiio.so ${DCM4CHEE_DIR}/bin/native/
+		rm -rf ${DCM4CHEE_DIR}/tempinst
+
+
+		# Create symbolic link ‘/usr/lib/jvm/java-7-openjdk’
+		jvm=/usr/lib/jvm/dcm4chee-openjdk
+		if [ ! -x "${jvm}" ]; then
+			openjdk=`ls -d /usr/lib/jvm/java-7-openjdk-* | grep -v common`
+			echo "Create a symbolic link ${jvm} to ${openjdk[0]}" 
+			test -x ${openjdk[0]} && ln -s ${openjdk[0]} "${jvm}"
+		fi
+
+		echo "dcm4chee-mysql installation completed!"
+
+    	;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument" >&2
+        exit 1
+    ;;
+
+esac
+
+exit 0

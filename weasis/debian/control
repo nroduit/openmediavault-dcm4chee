@@ -1,0 +1,11 @@
+Source: dcm4chee-weasis
+Section: Science
+Priority: optional
+Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>, Pablo Sau <psau@cadpet.es>
+Build-Depends: debhelper (>= 9.0.0 )
+Standards-Version: 2.0.6
+
+Package: dcm4chee-weasis
+Architecture: all
+Depends:  mysql-server ( >=5.5 ), dcm4chee-mysql ( >= 2.18.0  )
+Description: Weasis, multipurpose web-based WADO DICOM viewer.

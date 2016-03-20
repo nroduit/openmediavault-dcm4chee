@@ -1,0 +1,31 @@
+#!/bin/bash -e
+
+case "$1" in
+
+    configure)
+        dataDir=/var/lib/dcm4chee/server/default/data/xmbean-attrs
+		[ -d ${dataDir} ] || mkdir -p ${dataDir}
+		
+        if [ -f "${dataDir}/dcm4chee.web\@3Aservice\@3DWebConfig.xml" ]; then
+            sed -i 's/<attribute name="WebviewerNames" type="java.lang.String">NONE/<attribute name="WebviewerNames" type="java.lang.String">weasis\&#13;/' "${dataDir}/dcm4chee.web\@3Aservice\@3DWebConfig.xml"
+        else
+            mv /var/lib/dcm4chee/dcm4chee.web\@3Aservice\@3DWebConfig.xml ${dataDir}
+		fi
+        
+		chown -R dcm4chee:dcm4chee  /var/lib/dcm4chee/server/default
+
+		echo "Installation Completed!"
+
+    	;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument" >&2
+        exit 1
+    ;;
+
+esac
+
+exit 0
