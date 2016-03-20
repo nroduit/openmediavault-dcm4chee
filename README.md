@@ -39,7 +39,7 @@ In System > Update Manager, select all the packages and click on "Upgrade".
 
 ## Install/Upgrade dcm4chee and Weasis ##
 1. Download the latest plugin (openmediavault-dcm4chee_x.x.x_all.deb) at https://github.com/nroduit/openmediavault-dcm4chee/releases
-1. In System > Plugin, click on "Upload" and select the file "openmediavault-dcm4chee_x.x.x_all.deb"
+1. In System > Plugin, click on "Upload" and select the file "openmediavault-dcm4chee_x.x.x_all.deb". If upgrading, select the plugin in System > Update Manager and click on "Upgrade".
 1. In Services > PACS, click on "Download and install/upgrade dcm4chee"
 
 # Install dcm4chee on Debian-based distribution #
