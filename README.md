@@ -47,7 +47,8 @@ In System > Update Manager, select all the packages and click on "Upgrade".
 ## Install/Upgrade dcm4chee and Weasis ##
 
 1. Download the latest dcm4chee-mysql_x.x.x_all.deb and dcm4chee-weasis_x.x.x_all.deb at https://github.com/nroduit/openmediavault-dcm4chee/releases
-1. `sudo dpkg -i dcm4chee-mysql_x.x.x_all.deb`
+1. `sudo dpkg -i dcm4chee-mysql_x.x.x_all.deb`   
+   => could have dependency errors, execute the next command to install the dependencies.
 1. `sudo apt-get -f install`
 1. `sudo dpkg -i dcm4chee-weasis_x.x.x_all.deb`
 
