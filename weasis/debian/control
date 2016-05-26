@@ -3,7 +3,7 @@ Section: Science
 Priority: optional
 Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>, Pablo Sau <psau@cadpet.es>
 Build-Depends: debhelper (>= 9.0.0 )
-Standards-Version: 2.0.6
+Standards-Version: 2.0.7
 
 Package: dcm4chee-weasis
 Architecture: all
