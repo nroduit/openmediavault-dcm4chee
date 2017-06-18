@@ -41,6 +41,7 @@ Desktop.ini
 **/debian/files
 **/debian/*.debhelper.log
 **/debian/*.debhelper
+**/debian/debhelper-build-stamp
 **/debian/*substvars
 
 # Binaries
@@ -48,5 +49,7 @@ dcm4chee-mysql/var/lib/dcm4chee/*
 weasis/var/lib/dcm4chee/server/default/deploy/*
 /*.dsc
 /*.tar.gz
+/*.tar.xz
 /*.deb
 /*.changes
+
