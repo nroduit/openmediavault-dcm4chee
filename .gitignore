@@ -45,11 +45,12 @@ Desktop.ini
 **/debian/*substvars
 
 # Binaries
-dcm4chee-mysql/var/lib/dcm4chee/*
+dcm4chee-mysql/var/lib/*
 weasis/var/lib/dcm4chee/server/default/deploy/*
 /*.dsc
 /*.tar.gz
 /*.tar.xz
 /*.deb
+/*.ddeb
 /*.changes
 

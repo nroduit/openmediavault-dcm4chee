@@ -1,11 +1,11 @@
 Source: dcm4chee-mysql
 Section: Science
 Priority: optional
-Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>, Pablo Sau <psau@cadpet.es>
+Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>
 Build-Depends: debhelper (>= 9.0.0 )
-Standards-Version: 2.18.3
+Standards-Version: 2.18.3.1
 
 Package: dcm4chee-mysql
-Architecture: all
-Depends: mysql-server ( >=5.5 ), openjdk-7-jdk
+Architecture: amd64
+Depends: mysql-server ( >=5.5 )
 Description: dcm4chee is an Image Manager/Image Archive (according to IHE). The application contains the DICOM, HL7 services and interfaces that are required to provide storage, retrieval, and workflow to a healthcare environment.

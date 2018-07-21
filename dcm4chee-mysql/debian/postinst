@@ -53,11 +53,11 @@ case "$1" in
 
 
 		# Create symbolic link ‘/usr/lib/jvm/java-7-openjdk’
-		jvm=/usr/lib/jvm/dcm4chee-openjdk
+		jvm="/usr/lib/jvm/dcm4chee-openjdk"
 		if [ ! -x "${jvm}" ]; then
-			openjdk=`ls -d /usr/lib/jvm/java-7-openjdk-* | grep -v common`
-			echo "Create a symbolic link ${jvm} to ${openjdk[0]}" 
-			test -x ${openjdk[0]} && ln -s ${openjdk[0]} "${jvm}"
+			openjdk="/var/lib/java-7-oracle"
+			echo "Create a symbolic link ${jvm} to ${openjdk}" 
+			test -x ${openjdk} && ln -s ${openjdk} "${jvm}"
 		fi
 
 		echo "dcm4chee-mysql installation completed!"

@@ -59,8 +59,8 @@ case "$1" in
             userdel dcm4chee
         fi
 
-        # Remove symbolic link ‘/usr/lib/jvm/java-7-openjdk’
-        jvm=/usr/lib/jvm/dcm4chee-openjdk
+        # Remove symbolic link
+        jvm="/usr/lib/jvm/dcm4chee-openjdk"
         if [ -d ${jvm} ]; then
             rm -f ${jvm}
         fi
