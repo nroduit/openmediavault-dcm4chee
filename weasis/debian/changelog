@@ -1,24 +1,15 @@
-dcm4chee-weasis (2.5.3) stable; urgency=low 
+dcm4chee-weasis (3.0.1) stable; urgency=low 
 
-    * [WEA-396] - Changing the selected KO to None will let filter applied
-    * [WEA-400] - Study date is not updated in dicomizer when an image is removed
-    * [WEA-404] - Fix canceling DICOM send
-    * [WEA-406] - Fix the continuous errors of some corrupted images
-    * [WEA-408] - Fix series sorting issues
-    * [WEA-412] - Do not allow importing DICOM images in dicomizer
-    * [WEA-414] - Fix losing spatial unit with DICOM Presentation State
-    * [WEA-416] - Fix refreshing metada in Dicomizer
-    * [WEA-417] - Fix the offset position issue of the graphic label after serialization
+    * [WEA-458] - Tool panels are not visible with some screen sizes
+    * [WEA-460] - Do not update patient age when selecting another study
+    * [WEA-461] - Cannot launch Weasis (Failed to validate certificate)
+    * [WEA-462] - Update dcm4che to 5.13.0
+    * [WEA-464] - Thumbnails cannot be resized
+    * [WEA-465] - Default Color issue in PR graphics
+    * [WEA-467] - Re-creates missing download folder when system delete it
+    * [WEA-468] - Query/Retrieve with C-Move doesn't work (Regression)
 
-    * [WEA-398] - In tile mode, limit the scroll according to the number of images and the layout size
-    * [WEA-401] - Make more readable the overlays on thumbnails
-    * [WEA-407] - Allow all the non sequence tags in attributes-view.xml
-    * [WEA-409] - Read SCOORD from DICOM SR and display graphics on the image
-    * [WEA-410] - Fix corrupted path for loading images on Windows
-    * [WEA-411] - Improve DICOM error message 
-    * [WEA-415] - Configure the tags to display, to edit and to be required for publication in Dicomizer
+    * [WEA-463] - Display the vertical LUT from the bottom to the top
+    * [WEA-466] - Update to substance 8.0.2
 
-    * [WEA-152] - DICOM Query / Retrieve (DICOM import plugin)
-    * [WEA-397] - Reattempt downloading images after network failure
-
- -- Nicolas Roduit <nicolas.roduit@gmail.com>  Sun, 18 Jun 2017 19:57:57 +0200
+ -- Nicolas Roduit <nicolas.roduit@gmail.com>  Fri, 20 Jul 2018 22:28:56 +0200

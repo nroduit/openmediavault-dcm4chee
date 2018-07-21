@@ -7,7 +7,7 @@
 <attribute name="arrURL" type="java.lang.String">http://localhost:8080/dcm4chee-arr/xml</attribute>
 <attribute name="WebviewerNames" type="java.lang.String">weasis&#13;
 </attribute>
-<attribute name="WebviewerBaseUrls" type="java.lang.String">NONE</attribute>
+<attribute name="WebviewerBaseUrls" type="java.lang.String">weasis:jnlp://${server.host}:8080/weasis-pacs-connector/viewer</attribute>
 <attribute name="PatientIDPattern" type="java.lang.String">PACS-{#############}</attribute>
 <attribute name="IssuerOfPatientID" type="java.lang.String">DCM4CHEE</attribute>
 <attribute name="ImageSOPClasses" type="java.lang.String">ComputedRadiographyImageStorage&#13;

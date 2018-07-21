@@ -1,9 +1,9 @@
 Source: dcm4chee-weasis
 Section: Science
 Priority: optional
-Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>, Pablo Sau <psau@cadpet.es>
+Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>
 Build-Depends: debhelper (>= 9.0.0 )
-Standards-Version: 2.5.3
+Standards-Version: 3.0.1
 
 Package: dcm4chee-weasis
 Architecture: all
