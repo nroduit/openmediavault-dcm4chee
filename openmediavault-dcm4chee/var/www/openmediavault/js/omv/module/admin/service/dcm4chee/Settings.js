@@ -21,44 +21,44 @@
 // require("js/omv/data/Store.js")
 // require("js/omv/data/Model.js")
 
-Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
-    extend: "OMV.workspace.form.Panel",
+Ext.define('OMV.module.admin.service.dcm4chee.Settings', {
+    extend: 'OMV.workspace.form.Panel',
     uses: [
-        "OMV.data.Model",
-        "OMV.data.Store"],
+        'OMV.data.Model',
+        'OMV.data.Store'],
 
-    rpcService: "dcm4chee",
-    rpcGetMethod: "getSettings",
-    rpcSetMethod: "setSettings",
+    rpcService: 'dcm4chee',
+    rpcGetMethod: 'getSettings',
+    rpcSetMethod: 'setSettings',
 
     plugins: [{
-        ptype: "linkedfields",
+        ptype: 'linkedfields',
         correlations: [{
             name: [
-                "port"]
+                'port']
         }, {
             name: [
-                "enable"],
+                'enable'],
             conditions: [{
-                name: "enable",
+                name: 'enable',
                 value: true
             }],
             properties: function (valid, field) {
-                this.setButtonDisabled("openweb", !valid);
-                this.setButtonDisabled("jmx", !valid);
+                this.setButtonDisabled('openweb', !valid);
+                this.setButtonDisabled('jmx', !valid);
             }
         }]
     }],
-    
+
     getButtonItems: function () {
         var me = this;
         var items = me.callParent(arguments);
         items.push({
-            id: me.getId() + "-update",
-            xtype: "button",
-            text: _("Download and install/upgrade dcm4chee"),
-            icon: "images/add.png",
-            iconCls: Ext.baseCSSPrefix + "btn-icon-16x16",
+            id: me.getId() + '-update',
+            xtype: 'button',
+            text: _('Download and install/upgrade dcm4chee'),
+            icon: 'images/add.png',
+            iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
             scope: me,
             handler: Ext.Function.bind(me.onUpdateButton, me, [me])
         });
@@ -68,23 +68,23 @@ Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
     getFormItems: function () {
         var me = this;
         return [{
-            xtype: "fieldset",
-            title: "General settings",
+            xtype: 'fieldset',
+            title: 'General settings',
             defaults: {
-                labelSeparator: ""
+                labelSeparator: ''
             },
             items: [{
-                xtype: "checkbox",
-                name: "enable",
-                fieldLabel: _("Enable"),
+                xtype: 'checkbox',
+                name: 'enable',
+                fieldLabel: _('Enable'),
                 checked: false
             }, {
-                xtype: "numberfield",
-                name: "port",
-                fieldLabel: _("Port"),
-                vtype: "port",
+                xtype: 'numberfield',
+                name: 'port',
+                fieldLabel: _('Port'),
+                vtype: 'port',
 		// TODO change web port in dcm4chee
-		disabled: "true",
+		disabled: 'true',
                 minValue: 1,
                 maxValue: 65535,
                 allowDecimals: false,
@@ -92,33 +92,33 @@ Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
                 allowBlank: false,
                 value: 8080,
                 plugins: [{
-                    ptype: "fieldinfo",
-                    text: _("Port of the PACS web interface.")
+                    ptype: 'fieldinfo',
+                    text: _('Port of the PACS web interface.')
                 }]
             }]
         }, {
-            xtype: "fieldset",
-            title: "PACS WEB administration",
+            xtype: 'fieldset',
+            title: 'PACS WEB administration',
 
             defaults: {
-                labelSeparator: ""
+                labelSeparator: ''
             },
             items: [{
-                id: me.getId() + "-jmx",
-                xtype: "button",
-                text: _("JMX Web Interface"),
-                icon: "images/web.png",
-                iconCls: Ext.baseCSSPrefix + "btn-icon-16x16",
-                margin: "5 0 10 0",  // Same as CSS ordering (top, right, bottom, left)
+                id: me.getId() + '-jmx',
+                xtype: 'button',
+                text: _('JMX Web Interface'),
+                icon: 'images/web.png',
+                iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+                margin: '5 0 10 0',  // Same as CSS ordering (top, right, bottom, left)
                 scope: me,
                 handler: Ext.Function.bind(me.onOpenJmxButton, me, [me])
             }, {
-                id: me.getId() + "-openweb",
-                xtype: "button",
-                text: _("PACS Web Interface"),
-                icon: "images/web.png",
-                iconCls: Ext.baseCSSPrefix + "btn-icon-16x16",
-                margin: "5 0 10 15",  // Same as CSS ordering (top, right, bottom, left)
+                id: me.getId() + '-openweb',
+                xtype: 'button',
+                text: _('PACS Web Interface'),
+                icon: 'images/web.png',
+                iconCls: Ext.baseCSSPrefix + 'btn-icon-16x16',
+                margin: '5 0 10 15',  // Same as CSS ordering (top, right, bottom, left)
                 scope: me,
                 handler: Ext.Function.bind(me.onOpenPacsButton, me, [me])
             }]
@@ -126,35 +126,35 @@ Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
     },
     onOpenJmxButton: function () {
         var me = this;
-        window.open("http://" + window.location.hostname + ":" + me.getForm().findField("port").getValue() + "/jmx-console", "_blank");
+        window.open('http://' + window.location.hostname + ':' + me.getForm().findField('port').getValue() + '/admin-dcm4chee', '_blank');
     },
 
     onOpenPacsButton: function () {
         var me = this;
-        window.open("http://" + window.location.hostname + ":" + me.getForm().findField("port").getValue() + "/dcm4chee-web3", "_blank");
+        window.open('http://' + window.location.hostname + ':' + me.getForm().findField('port').getValue() + '/dcm4chee-web3', '_blank');
     },
-    
+
     onUpdateButton: function () {
         var me = this;
-        var wnd = Ext.create("OMV.window.Execute", {
-            title: _("Installing dcm4chee..."),
-            rpcService: "dcm4chee",
-            rpcMethod: "doUpdate",
+        var wnd = Ext.create('OMV.window.Execute', {
+            title: _('Installing dcm4chee...'),
+            rpcService: 'dcm4chee',
+            rpcMethod: 'doUpdate',
             hideStartButton: true,
             hideStopButton: true,
             listeners: {
                 scope: me,
                 finish: function (wnd, response) {
-                    wnd.appendValue(_("Done..."));
-                    wnd.setButtonDisabled("close", false);
+                    wnd.appendValue(_('Done...'));
+                    wnd.setButtonDisabled('close', false);
                 },
                 exception: function (wnd, error) {
                     OMV.MessageBox.error(null, error);
-                    wnd.setButtonDisabled("close", false);
+                    wnd.setButtonDisabled('close', false);
                 }
             }
         });
-        wnd.setButtonDisabled("close", true);
+        wnd.setButtonDisabled('close', true);
         wnd.show();
         wnd.start();
     }
@@ -162,9 +162,9 @@ Ext.define("OMV.module.admin.service.dcm4chee.Settings", {
 });
 
 OMV.WorkspaceManager.registerPanel({
-    id: "settings",
-    path: "/service/dcm4chee",
-    text: _("Settings"),
+    id: 'settings',
+    path: '/service/dcm4chee',
+    text: _('Settings'),
     position: 10,
-    className: "OMV.module.admin.service.dcm4chee.Settings"
+    className: 'OMV.module.admin.service.dcm4chee.Settings'
 });

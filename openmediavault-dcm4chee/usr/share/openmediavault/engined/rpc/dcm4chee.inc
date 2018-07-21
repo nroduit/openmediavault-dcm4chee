@@ -16,186 +16,110 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("openmediavault/error.inc");
-require_once("openmediavault/notify.inc");
-require_once("openmediavault/object.inc");
-require_once("openmediavault/util.inc");
-require_once("openmediavault/rpcservice.inc");
-require_once("openmediavault/initscript.inc");
+namespace OMV\Engined\Rpc;
 
-class OMVRpcServiceDcm4chee extends OMVRpcServiceAbstract
+use DateTime;
+use Exception;
+use OMV\Config\Database;
+use OMV\Rpc\ServiceAbstract;
+use OMV\Rpc\ServiceManager as RpcServiceManager;
+use OMV\System\Process;
+
+class OMVRpcServiceDcm4chee extends ServiceAbstract
 {
+
+	/** @var Database */
+	private $database;
+	/** @var string */
+  private $dataModelPath = 'conf.service.dcm4chee';
+
+	public function __construct(Database $database = null)
+	{
+		$this->database = $database ?: Database::getInstance();
+	}
+
     public function getName()
     {
         return 'dcm4chee';
-    }
-
-    private function getPluginName()
-    {
-        return strtolower( $this->getName() );
-    }
-
-    private function getXPath()
-    {
-        return sprintf( "//services/%s", $this->getPluginName() );
-    }
-
-    private function getEventMessagePath()
-    {
-        return sprintf( "org.openmediavault.services.%s", $this->getPluginName() );
-    }
-
-    private function getProgram()
-    {
-        return "etc/init.d/dcm4chee";
     }
 
     public function initialize()
     {
         $this->registerMethod('getSettings');
         $this->registerMethod('setSettings');
-        $this->registerMethod("doRestart");
-        $this->registerMethod("doUpdate");
+        $this->registerMethod('doRestart');
+        $this->registerMethod('doUpdate');
     }
 
-    function getSettings($params, $context)
+    public function getSettings($params, $context)
     {
-        global $xmlConfig;
-
-        // Validate the RPC caller context.
-        $this->validateMethodContext(
-            $context,
-            array( "role" => OMV_ROLE_ADMINISTRATOR )
-        );
+				$this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
 
         // Get configuration object
-        $object = $xmlConfig->get( $this->getXPath() );
-        if (is_null($object)) {
-            throw new OMVException(
-                OMVErrorMsg::E_CONFIG_GET_OBJECT_FAILED,
-                $this->getXPath()
-            );
-        }
+   			$object = $this->database->get($this->dataModelPath);
 
         // Modify result data
-        $object['enable']  = boolval($object['enable']);
-        $object['port']    = 8080;
+        // $object['enable']  = boolval($object['enable']);
+        // $object['port']    = 8080;
         //$object['port']    = intval($object['port']);
         // $object['showtab'] = boolval($object['showtab']);
 
-        return $object;
+        return $object->getAssoc();
     }
 
-    function setSettings($params, $context)
+    public function setSettings($params, $context)
     {
-        global $xmlConfig;
+			$this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
+			$this->validateMethodParams($params, 'rpc.dcm4chee.setsettings');
 
-        // Validate the RPC caller context.
-        $this->validateMethodContext(
-            $context,
-            array( "role" => OMV_ROLE_ADMINISTRATOR )
-        );
+			$object = $this->database->get($this->dataModelPath);
+			$object->setAssoc($params);
 
-        // Validate the parameters of the RPC service method.
-        $this->validateMethodParams($params, '{
-            "type": "object",
-            "properties": {
-                "enable": { "type" : "boolean" }
-            }
-        }');
+			$this->database->set($object);
 
-        // insert in properties => "port": { "type" : "integer", "minimum" : 1 }
-
-        //       "showtab": { "type" : "boolean" },
-
-        // Prepare configuration data
-        $object = array(
-            'enable'    => array_boolval($params, 'enable'),
-         //   'port'      => intval($params['port'])
-        );
-
-        // Set configuration object
-        if (false === $xmlConfig->replace($this->getXPath(), $object)) {
-            throw new OMVException(
-                OMVErrorMsg::E_CONFIG_SET_OBJECT_FAILED,
-                $this->getXPath()
-            );
-        }
-
-        // Notify configuration changes
-        $dispatcher = &OMVNotifyDispatcher::getInstance();
-        $dispatcher->notify(
-            OMV_NOTIFY_MODIFY,
-            $this->getEventMessagePath(),
-            $object
-        );
-
-        return $object;
+			return $object->getAssoc();
     }
 
     public function doRestart($params, $context)
     {
-        global $xmlConfig;
-
         // Validate the RPC caller context.
-        $this->validateMethodContext(
-            $context,
-            array( "role" => OMV_ROLE_ADMINISTRATOR )
-        );
+				$this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
 
-        $object = $xmlConfig->get($this->getXPath());
+        $object = $this->database->get($this->dataModelPath);
 
-        if (is_null($object))
-        {
-            throw new OMVException(
-                OMVErrorMsg::E_CONFIG_GET_OBJECT_FAILED,
-                $this->getXPath()
-            );
-        }
-
-        if (!boolval($object["enable"]))
+        if (!boolval($object['enable']))
         {
             return;
         }
 
-        $initd = new OMVSysVInitScript($this->getPluginName());
-        $initd->invoke("restart");
+				$systemCtl = new SystemCtl($this->serviceName);
+				$systemCtl->enable(true);
     }
 
     public function doUpdate($params, $context)
     {
         // Validate the RPC caller context.
-        $this->validateMethodContext(
-            $context,
-            array( "role" => OMV_ROLE_ADMINISTRATOR )
-        );
+        $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
 
         // Create a background process.
-        $bgStatusFilename = $this->createBgProcStatus();
-        $pid = $this->fork();
-        if ($pid > 0)   // Parent process.
-        {
-            $this->initializeBgProcStatus($bgStatusFilename, $pid);
-            return $bgStatusFilename;
-        }
-        
-        // Child process.
-        try {
-            $bgOutputFilename = $this->createBgProcOutput();
-            $this->updateBgProcStatus($bgStatusFilename, "outputfilename", $bgOutputFilename);
-
-            $cmd = sprintf("omv-mkconf %s update 2>&1", $this->getPluginName() );
-            $this->exec($cmd, $output, $bgOutputFilename);
-            $this->finalizeBgProcStatus($bgStatusFilename, $output);
-
-        } catch(Exception $e) {
-            $this->finalizeBgProcStatus($bgStatusFilename, "", $e);
-            exit(1);
-        }
-
+				return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+				  use ($object, $sd) {
+					$cmdArgs = 'dcm4chee update 2>&1';
+					$cmd = new Process('omv-mkconf', $cmdArgs);
+					$cmd->setRedirect2to1();
+					// Execute the command.
+					$exitStatus = $this->exec($cmd->getCommandLine(), $output,
+						$bgOutputFilename);
+					// Check the exit status:
+					// Bit 0: Command line did not parse
+					// Bit 1: Device open failed, or device did not return an
+					//        IDENTIFY DEVICE structure
+					if (($exitStatus !== 0) && (($exitStatus & 0) ||
+						($exitStatus & 1))) {
+						throw new \OMV\ExecException($cmd->getCommandLine(), $output,
+							$exitStatus);
+					}
+					return $output;
+				});
     }
 }
-
-// Register the RPC service.
-$rpcServiceMgr = &OMVRpcServiceMgr::getInstance();
-$rpcServiceMgr->registerService(new OMVRpcServiceDcm4chee());

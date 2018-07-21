@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2015 OpenMediaVault Plugin Developers
+# Copyright (C) 2013-2018 OpenMediaVault Plugin Developers
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,16 +23,21 @@ set -e
 SERVICE="dcm4chee"
 SERVICE_XPATH="//services/${SERVICE}"
 
-NAME_DCM4CHEE="dcm4chee-mysql_2.18.3_all.deb"
-NAME_WEASIS="dcm4chee-weasis_2.5.3_all.deb"
-LINK_DCM4CHEE="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v0.9.7/${NAME_DCM4CHEE}"
-LINK_WEASIS="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v0.9.9/${NAME_WEASIS}"
+NAME_DCM4CHEE="dcm4chee-mysql_2.18.3.1_amd64.deb"
+NAME_WEASIS="dcm4chee-weasis_3.0.1_all.deb"
+LINK_DCM4CHEE="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v4.0.0/${NAME_DCM4CHEE}"
+LINK_WEASIS="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v4.0.0/${NAME_WEASIS}"
 PKG_DCM4CHEE="/var/tmp/${NAME_DCM4CHEE}"
 PKG_WEASIS="/var/tmp/${NAME_WEASIS}"
 INSTALL_DIR="/var/lib/${SERVICE}"
 
 install()
 { 
+    # Generate configuration only if the service is enabled.
+    if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
+        exit 0
+    fi
+
     mkdir -p "var/tmp"
 
     if [ ! -f "${PKG_DCM4CHEE}" ]; then
@@ -89,8 +94,5 @@ case $2 in
     ;;
 esac
 
-#if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
-#    invoke-rc.d ${SERVICE} start
-#fi
 
 exit 0

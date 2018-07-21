@@ -17,132 +17,97 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-require_once("openmediavault/module.inc");
-require_once("openmediavault/config.inc");
-require_once("openmediavault/error.inc");
-require_once("openmediavault/util.inc");
-require_once("openmediavault/initscript.inc");
-require_once("openmediavault/functions.inc");
-require_once("openmediavault/log.inc");
+ namespace OMV\Engined\Module;
 
-class OMVModuleDcm4chee extends OMVModuleServiceAbstract implements
-    OMVINotifyListener,
-    OMVIModuleServiceStatus
+ use OMV\Config\Database;
+ use OMV\Engine\Module\IServiceStatus;
+ use OMV\Engine\Module\Manager as ModuleManager;
+ use OMV\Engine\Module\ServiceAbstract;
+ use OMV\Engine\Notify\Dispatcher;
+ use OMV\Engine\Notify\IListener;
+ use OMV\System\Process;
+ use OMV\System\SystemCtl;
+
+class OMVModuleDcm4chee extends ServiceAbstract implements
+    IListener,
+    IServiceStatus
 {
+  /** @var Database */
+  private $database;
+
+  /** @var string */
+  private $dataModelPath = 'conf.service.dcm4chee';
+
+  /** @var string */
+  private $eventMessagePath = 'org.openmediavault.conf.service.dcm4chee';
+
+  /** @var ModuleManager */
+  private $moduleManager;
+
+  /** @var string */
+  private $serviceName = 'dcm4chee.service';
+
+  public function __construct(Database $database = null)
+  {
+      $this->database = $database ?: Database::getInstance();
+  }
 
     public function getName()
     {
-        return "dcm4chee";
+        return 'dcm4chee';
     }
-
-    private function getPluginName()
-    {
-        return strtolower( $this->getName() );
-    }
-
-    private function getXPath()
-    {
-        return sprintf( "//services/%s", $this->getPluginName() );
-    }
-
-    private function getEventMessagePath()
-    {
-        return sprintf( "org.openmediavault.services.%s", $this->getPluginName() );
-    }
-
-    private function getSharedFolderEventMessagePath()
-    {
-        return "org.openmediavault.system.shares.sharedfolder";
-    }
-
     public function getStatus()
     {
-        global $xmlConfig;
-        $object = $xmlConfig->get($this->getXpath());
-        if (is_null($object)) {
-            throw new OMVException(
-                OMVErrorMsg::E_CONFIG_GET_OBJECT_FAILED,
-                $this->getXpath()
-            );
-        }
-        $initd = new OMVSysVInitScript($this->getPluginName());
-        return array(
-            "name" => $this->getPluginName(),
-            "title" => gettext("PACS"),
-            "enabled" => boolval($object["enable"]),
-            "running" => $initd->status() == 0
-        );
+      $object = $this->database->get($this->dataModelPath);
+      $systemCtl = new SystemCtl($this->serviceName);
+
+      return [
+          'name' => $this->getName(),
+          'title' => gettext('PACS'),
+          'enabled' => $object->get('enable'),
+          'running' => $systemCtl->isActive(),
+      ];
     }
 
     public function applyConfig()
     {
-        $cmd = sprintf("omv-mkconf %s config 2>&1", $this->getPluginName());
-
-        if (0 !== $this->exec($cmd, $output)) {
-            throw new OMVException(
-                OMVErrorMsg::E_EXEC_FAILED,
-                $cmd,
-                implode("\n", $output)
-            );
-        }
+      $cmd = new Process('omv-mkconf', $this->getName());
+      $cmd->setRedirect2to1();
+      $cmd->execute();
     }
 
     public function startService()
     {
-        global $xmlConfig;
-        $object = $xmlConfig->get( $this->getXPath() );
+      $object = $this->database->get($this->dataModelPath);
 
-        if (is_null($object)) {
-            throw new OMVException(
-                OMVErrorMsg::E_CONFIG_GET_OBJECT_FAILED,
-                $this->getXPath()
-            );
-        }
-
-        if (FALSE === boolvalEx($object['enable']))
-            return;
-
-        $initd = new OMVSysVInitScript($this->getPluginName(), TRUE);
-        $initd->enable();
-
-        switch($initd->status()) {
-        case 0: // running -> restart
-            $initd->restart();
-            break;
-        default: // start service
-            $initd->start();
-        }            
+      if ($object->get('enable')) {
+          $systemCtl = new SystemCtl($this->serviceName);
+          $systemCtl->enable(true);
+      }
     }
 
     public function stopService()
     {
-        $initd = new OMVSysVInitScript($this->getPluginName(), FALSE);
-        $initd->exec();        
+      $systemCtl = new SystemCtl($this->serviceName);
+      $systemCtl->disable(true);
     }
 
-    public function bindListeners(OMVNotifyDispatcher $dispatcher)
+    public function getNotificationConfig() {
+  		return [
+  			[
+  				'id' => $this->getName(),
+  				'type' => getText('Services'),
+  				'title' => gettext('PACS')
+  			]
+  		];
+  	}
+
+    public function bindListeners(Dispatcher $dispatcher)
     {
         $dispatcher->addListener(
             OMV_NOTIFY_CREATE | OMV_NOTIFY_MODIFY | OMV_NOTIFY_DELETE,
-            $this->getEventMessagePath(),
-            array($this, "setDirty")
+            $this->eventMessagePath,
+            [$this, 'setDirty']
         );
-
     }
 }
-
-// Register module
-$moduleMgr = &OMVModuleMgr::getInstance();
-$moduleMgr->registerModule(new OMVModuleDcm4chee());
-
-// Register new logfile type.
-OMVLogFile::registerType("dcm4chee", array(
-  "filename" => "server.log",
-  "filepath" => "var/lib/dcm4chee/server/default/log/server.log",
-  "regex" => "/^(\S+\s+\S+)\s+(.*)$/",
-  "columns" => array(
-      "ts" => 1,
-      "date" => 1,
-      "message" => 2
-  )));
-

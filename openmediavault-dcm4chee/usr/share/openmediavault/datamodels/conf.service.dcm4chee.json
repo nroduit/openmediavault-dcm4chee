@@ -1,0 +1,19 @@
+{
+    "type": "config",
+    "id": "conf.service.dcm4chee",
+    "title": "dcm4chee",
+    "queryinfo": {
+        "xpath": "/config/services/dcm4chee",
+        "iterable": false
+    },
+    "properties": {
+        "enable": {
+            "type": "boolean",
+            "default": true
+        },
+        "port": {
+            "type": "integer",
+            "default": 8080
+        }
+    }
+}

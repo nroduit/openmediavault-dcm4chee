@@ -1,5 +1,5 @@
-openmediavault-dcm4chee (0.9.9) stable; urgency=low 
+openmediavault-dcm4chee (4.0.0) stable; urgency=low 
 
-    * Weasis 2.5.3
+    * Update to openmediavault 4
 
- -- Nicolas Roduit <nicolas.roduit@gmail.com>  Sun, 16 Aug 2015 09:57:36 +0200
+ -- Nicolas Roduit <nicolas.roduit@gmail.com>  Fri, 20 Jul 2018 22:28:56 +0200

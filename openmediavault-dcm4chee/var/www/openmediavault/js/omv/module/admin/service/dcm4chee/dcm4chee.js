@@ -19,20 +19,20 @@
 
 // Register a node in the navigation tree.
 //
-// id: 
+// id:
 //     Set the ID of the node.
-// path: 
+// path:
 //     Parent path in the navigation view.
-// Text: 
+// Text:
 //     Service name/title. This is displayed in the navigation.
-// icon16: 
+// icon16:
 //     16x16 pixel icon that is displayed in the navigation tree.
-// iconSvg: 
+// iconSvg:
 //     SVG icon that is displayed in the navigation view.
 OMV.WorkspaceManager.registerNode({
-    id: "dcm4chee",
-    path: "/service",
-    text: "PACS", 
-    icon16: "images/dcm4chee.png",
-    iconSvg: "images/dcm4chee.svg"
+    id: 'dcm4chee',
+    path: '/service',
+    text: _('PACS'),
+    icon16: 'images/dcm4chee.png',
+    iconSvg: 'images/dcm4chee.svg'
 });

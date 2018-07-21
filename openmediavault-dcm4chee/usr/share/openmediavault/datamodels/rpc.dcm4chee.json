@@ -1,0 +1,17 @@
+[{
+    "type": "rpc",
+    "id": "rpc.dcm4chee.setsettings",
+    "params": {
+        "type": "object",
+        "properties": {
+            "enable": {
+                "type": "boolean",
+                "required": true
+            },
+            "port": {
+                "type": "integer",
+                "required": false
+            }
+        }
+    }
+}]
