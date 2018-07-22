@@ -52,5 +52,6 @@ weasis/var/lib/dcm4chee/server/default/deploy/*
 /*.tar.xz
 /*.deb
 /*.ddeb
+/*.buildinfo
 /*.changes
 
