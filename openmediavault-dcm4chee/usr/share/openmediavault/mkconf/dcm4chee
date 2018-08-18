@@ -21,7 +21,7 @@ set -e
 . /usr/share/openmediavault/scripts/helper-functions
 
 SERVICE="dcm4chee"
-SERVICE_XPATH="//services/${SERVICE}"
+SERVICE_XPATH="/config/services/${SERVICE}"
 
 NAME_DCM4CHEE="dcm4chee-mysql_2.18.3.1_amd64.deb"
 NAME_WEASIS="dcm4chee-weasis_3.0.1_all.deb"
@@ -31,13 +31,31 @@ PKG_DCM4CHEE="/var/tmp/${NAME_DCM4CHEE}"
 PKG_WEASIS="/var/tmp/${NAME_WEASIS}"
 INSTALL_DIR="/var/lib/${SERVICE}"
 
-install()
-{ 
-    # Generate configuration only if the service is enabled.
-    if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
-        exit 0
+stop()
+{
+    if [ -f "/var/run/dcm4chee/dcm4chee.pid" ]; then
+        PID=`cat /var/run/dcm4chee/dcm4chee.pid`;
+        if ! kill -0 $PID > /dev/null 2>&1; then
+            echo "Removing stale pid file"
+            rm /var/run/dcm4chee/dcm4chee.pid
+        else
+            kill -9 $PID;
+        fi
     fi
+}
 
+start()
+{
+    [ -f "/var/run/dcm4chee/dcm4chee.pid" ] || /etc/init.d/dcm4chee start
+}
+
+restart()
+{
+    /etc/init.d/dcm4chee restart
+}
+
+installdependencies()
+{ 
     mkdir -p "var/tmp"
 
     if [ ! -f "${PKG_DCM4CHEE}" ]; then
@@ -59,6 +77,10 @@ install()
     echo "Installing weasis..."
     echo "dpkg -i ${PKG_WEASIS}"
     dpkg -i ${PKG_WEASIS} || apt-get -f install -y
+
+    if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
+        restart
+    fi
 }
 
 remove()
@@ -73,9 +95,10 @@ config()
 }
 
 
-case $2 in
+
+case $1 in
     install)
-        install
+        installdependencies
     ;;
 
     remove)
@@ -83,14 +106,27 @@ case $2 in
     ;;
 
     update)
-        install
+        installdependencies
     ;;
 
     config)
         config
     ;;
 
+    start)
+        start
+    ;;
+
+    restart)
+        restart
+    ;;
+
+    stop)
+        stop
+    ;;
+
     *)
+        echo "Unknown command..."
     ;;
 esac
 

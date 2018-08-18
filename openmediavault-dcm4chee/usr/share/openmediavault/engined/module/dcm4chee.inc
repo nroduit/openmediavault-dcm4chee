@@ -81,15 +81,17 @@ class OMVModuleDcm4chee extends ServiceAbstract implements
       $object = $this->database->get($this->dataModelPath);
 
       if ($object->get('enable')) {
-          $systemCtl = new SystemCtl($this->serviceName);
-          $systemCtl->enable(true);
+          $cmd = new Process('omv-mkconf', 'dcm4chee start');
+          $cmd->setRedirect2to1();
+          $cmd->execute();
       }
     }
 
     public function stopService()
     {
-      $systemCtl = new SystemCtl($this->serviceName);
-      $systemCtl->disable(true);
+      $cmd = new Process('omv-mkconf', 'dcm4chee stop');
+      $cmd->setRedirect2to1();
+      $cmd->execute();
     }
 
     public function getNotificationConfig() {

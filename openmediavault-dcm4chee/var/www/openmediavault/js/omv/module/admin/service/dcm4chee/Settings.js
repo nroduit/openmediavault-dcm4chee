@@ -140,6 +140,9 @@ Ext.define('OMV.module.admin.service.dcm4chee.Settings', {
             title: _('Installing dcm4chee...'),
             rpcService: 'dcm4chee',
             rpcMethod: 'doUpdate',
+            rpcParams: {
+                uuid: '28b79203-d11b-4cd9-8d1e-5d7803499226'
+            },
             hideStartButton: true,
             hideStopButton: true,
             listeners: {

@@ -92,8 +92,12 @@ class OMVRpcServiceDcm4chee extends ServiceAbstract
             return;
         }
 
-				$systemCtl = new SystemCtl($this->serviceName);
-				$systemCtl->enable(true);
+		// $systemCtl = new SystemCtl($this->serviceName);
+		// $systemCtl->enable(true);
+
+        $cmd = new Process('omv-mkconf', 'dcm4chee restart');
+        $cmd->setRedirect2to1();
+        $cmd->execute();
     }
 
     public function doUpdate($params, $context)
@@ -101,25 +105,27 @@ class OMVRpcServiceDcm4chee extends ServiceAbstract
         // Validate the RPC caller context.
         $this->validateMethodContext($context, ['role' => OMV_ROLE_ADMINISTRATOR]);
 
+        $this->validateMethodParams($params, "rpc.common.objectuuid");
+
         // Create a background process.
-				return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
-				  use ($object, $sd) {
-					$cmdArgs = 'dcm4chee update 2>&1';
-					$cmd = new Process('omv-mkconf', $cmdArgs);
-					$cmd->setRedirect2to1();
-					// Execute the command.
-					$exitStatus = $this->exec($cmd->getCommandLine(), $output,
-						$bgOutputFilename);
-					// Check the exit status:
-					// Bit 0: Command line did not parse
-					// Bit 1: Device open failed, or device did not return an
-					//        IDENTIFY DEVICE structure
-					if (($exitStatus !== 0) && (($exitStatus & 0) ||
-						($exitStatus & 1))) {
-						throw new \OMV\ExecException($cmd->getCommandLine(), $output,
-							$exitStatus);
-					}
-					return $output;
-				});
+		return $this->execBgProc(function($bgStatusFilename, $bgOutputFilename)
+		  use ($params) {
+			$cmdArgs = 'dcm4chee update';
+			$cmd = new Process('omv-mkconf', $cmdArgs);
+			$cmd->setRedirect2to1();
+			// Execute the command.
+			$exitStatus = $this->exec($cmd->getCommandLine(), $output,
+				$bgOutputFilename);
+			// Check the exit status:
+			// Bit 0: Command line did not parse
+			// Bit 1: Device open failed, or device did not return an
+			//        IDENTIFY DEVICE structure
+			if (($exitStatus !== 0) && (($exitStatus & 0) ||
+				($exitStatus & 1))) {
+				throw new \OMV\ExecException($cmd->getCommandLine(), $output,
+					$exitStatus);
+			}
+			return $output;
+		});
     }
 }

@@ -33,15 +33,7 @@ case "$1" in
 
     purge)
 
-        if [ -f "/var/run/dcm4chee/dcm4chee.pid" ]; then
-            PID=`cat /var/run/dcm4chee/dcm4chee.pid`;
-            if ! kill -0 $PID > /dev/null 2>&1; then
-                echo "Removing stale pid file"
-                rm /var/run/dcm4chee/dcm4chee.pid
-            else
-                kill -9 $PID;
-            fi
-        fi
+        omv-mkconf dcm4chee stop
 
         if [ -d "/var/run/dcm4chee}" ]; then
             rm -rf "/var/run/dcm4chee"
