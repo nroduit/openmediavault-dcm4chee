@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
 Files: *
-Copyright: 2016-2018 OpenMediaVault Plugin Developers <plugins@omv-extras.org>
+Copyright: 2016-2019 OpenMediaVault Plugin Developers <plugins@omv-extras.org>
 Author: Nicolas Roduit
 License: GPL-3+

@@ -1,0 +1,3 @@
+#!/bin/bash
+grep -q dcm4chee /etc/passwd || useradd -s /usr/sbin/nologin -r -M -d /var/lib/dcm4chee dcm4chee
+exit 0

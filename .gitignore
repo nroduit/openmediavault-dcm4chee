@@ -46,6 +46,7 @@ Desktop.ini
 
 # Binaries
 dcm4chee-mysql/var/lib/*
+dcm4chee-psql/var/lib/*
 weasis/var/lib/dcm4chee/server/default/deploy/*
 /*.dsc
 /*.tar.gz

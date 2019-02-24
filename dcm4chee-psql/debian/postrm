@@ -13,28 +13,16 @@
 # disappearer's-postrm disappear overwriter overwriter-version
 
 DATADIR="/var/lib/dcm4chee"
-MYSQLDB="pacsdb"
-SECURITY_INFO="--defaults-file=/etc/mysql/debian.cnf"
+PSQLDB="pacsdb"
+PGUSER="postgres"
+CP="pacs"
 
-purge_db() {
-    if [ -d /var/lib/mysql/${MYSQLDB} ]; then   
-       if [ hash mysql 2>/dev/null ]; then
-            echo "Cannot access to mysql to drop database"
-        else
-            echo "Drop ${MYSQLDB}"
-            mysql $SECURITY_INFO --execute "drop database ${MYSQLDB};"     
-        fi
-    else
-        echo "DB ${MYSQLDB} not found!"
-    fi
-}
 
 case "$1" in
 
     purge)
 
-        purge_db
-
+	sudo -u ${PGUSER} psql -tc "SELECT 1 FROM pg_database WHERE datname = '${PSQLDB}'" | grep -q 1 && { sudo -u ${PGUSER} psql -c "DROP DATABASE ${PSQLDB};"; sudo -u ${PGUSER} psql -c "DROP USER ${CP};"; }
         # Make sure all the files are removed
         if [ -d "${DATADIR}" ]; then
             rm -rf "${DATADIR}"
@@ -52,11 +40,11 @@ case "$1" in
         # Remove dcm4che at boot
         update-rc.d -f dcm4chee remove
 
-        echo "Package dcm4chee-mysql purged!"
+        echo "Package dcm4chee-psql purged!"
     ;;
 
     remove)
-		echo "Package dcm4chee-mysql removed!"
+		echo "Package dcm4chee-psql removed!"
     ;;
 
     upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)

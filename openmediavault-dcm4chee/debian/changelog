@@ -1,5 +1,6 @@
-openmediavault-dcm4chee (4.0.0) stable; urgency=low 
+openmediavault-dcm4chee (4.0.1) stable; urgency=low 
 
-    * Update to openmediavault 4
+    * Install the new Postgres package (dcm4chee-psql)
 
- -- Nicolas Roduit <nicolas.roduit@gmail.com>  Fri, 20 Jul 2018 22:28:56 +0200
+ -- Nicolas Roduit <nicolas.roduit@gmail.com>  Sat, 23 Feb 2019 16:56:30 +0100
+

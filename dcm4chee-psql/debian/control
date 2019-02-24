@@ -1,0 +1,11 @@
+Source: dcm4chee-psql
+Section: Science
+Priority: optional
+Maintainer: Nicolas Roduit <nicolas.roduit@gmail.com>
+Build-Depends: debhelper (>= 9.0.0)
+Standards-Version: 2.18.3
+
+Package: dcm4chee-psql
+Architecture: amd64
+Depends: postgresql (>=9)
+Description: dcm4chee is an Image Manager/Image Archive (according to IHE). The application contains the DICOM, HL7 services and interfaces that are required to provide storage, retrieval, and workflow to a healthcare environment.
