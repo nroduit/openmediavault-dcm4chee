@@ -24,7 +24,7 @@ SERVICE="dcm4chee"
 SERVICE_XPATH="/config/services/${SERVICE}"
 
 NAME_DCM4CHEE="dcm4chee-psql_2.18.3_amd64.deb"
-LINK_DCM4CHEE="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v4.0.0/${NAME_DCM4CHEE}"
+LINK_DCM4CHEE="https://github.com/nroduit/openmediavault-dcm4chee/releases/download/v4.0.1/${NAME_DCM4CHEE}"
 PKG_DCM4CHEE="/var/tmp/${NAME_DCM4CHEE}"
 INSTALL_DIR="/var/lib/${SERVICE}"
 
